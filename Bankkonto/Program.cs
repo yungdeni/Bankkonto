@@ -25,6 +25,11 @@ namespace Bankkonto
             custs[custNumber].phone = "0800000";
             custs[custNumber].account = new int[10];
             custs[custNumber].numberOfAccs = 1;
+            custs[1].name = "Hans";
+            custs[1].address = "V'gen 123";
+            custs[1].phone = "0700000";
+            custs[1].account = new int[10];
+            custs[1].numberOfAccs = 1;
 
 
             string userInput = "";
@@ -39,7 +44,7 @@ namespace Bankkonto
                         int.TryParse(Console.ReadLine(), out int acc);
                         if(acc <= custs[custNumber].numberOfAccs)
                         {
-                            custs[custNumber].account[acc] -= Withdraw(custs[custNumber], acc);
+                            custs[custNumber].account[acc-1] -= Withdraw(custs[custNumber], acc);
                         }
                         else
                         {
@@ -48,16 +53,38 @@ namespace Bankkonto
                         
                         break;
                     case "2":
-                        custs[custNumber].account[0] += Deposit();
+                        Console.WriteLine("Till vilket konto?");
+                        int.TryParse(Console.ReadLine(), out int ac);
+                        if (ac <= custs[custNumber].numberOfAccs)
+                        {
+                            custs[custNumber].account[ac-1] += Deposit();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Det ar inget konto du har");
+                        }
+
                         break;
                     case "3":
-                        Balance(custs[custNumber], 0);
+                        Balance(custs[custNumber]);
                         break;
                     case "4":
                         Information(custs[custNumber]);
                         break;
                     case "5":
-                        custs[custNumber].numberOfAccs += NewAccount(custs[0]);
+                        custs[custNumber].numberOfAccs += NewAccount(custs[custNumber]);
+                        break;
+                    case "6":
+                        Console.WriteLine("Ange ditt kundnummer");
+                        int.TryParse(Console.ReadLine(), out int cus);
+                        if(custs[cus].name != null)
+                        {
+                            custNumber = cus;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Det kundnumret finns inte");
+                        }
                         break;
                     case "q":
 
@@ -81,6 +108,7 @@ namespace Bankkonto
             Console.WriteLine("3. Se saldo");
             Console.WriteLine("4. Se din information");
             Console.WriteLine("5. Oppna nytt konto");
+            Console.WriteLine("6. Logga ut");
         }
 
         static int Withdraw(Customer n, int acc)
@@ -127,7 +155,7 @@ namespace Bankkonto
             return 0;
         }
 
-        static void Balance(Customer n, int acc)
+        static void Balance(Customer n)
         {
             
             for (int i = 0; i < n.numberOfAccs; i++)
@@ -139,7 +167,7 @@ namespace Bankkonto
         static void Information(Customer n)
         {
             Console.WriteLine("**************************");
-            Console.WriteLine("Hej {0} ", n.name);
+            Console.WriteLine("Hej {0} med kundnummer {1}", n.name);
             Console.WriteLine("Du bor  {0} ", n.address);
             Console.WriteLine("Du har telefon {0} ", n.phone);
             Console.WriteLine("Du har {0} konton", n.numberOfAccs);

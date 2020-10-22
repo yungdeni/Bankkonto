@@ -33,7 +33,7 @@ namespace Bankkonto
                 custs[count].address = columns[1];
                 custs[count].phone = columns[2];
                 string temp = columns[3];
-                string[] temp2 = temp.Substring(0,19).Split(',');
+                string[] temp2 = temp.Substring(0,columns[3].Length).Split(',');
                 custs[count].account = new int[10];
                 for (int i = 0; i < temp2.Length; i++)
                 {
